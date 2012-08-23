@@ -651,8 +651,14 @@ static int touchkey_firmware_update(struct touchkey_i2c *tkey_i2c)
 }
 #endif
 
+<<<<<<< HEAD
 #ifndef TEST_JIG_MODE
 static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
+=======
+extern void gpu_boost_on_touch(void);
+
+void touchkey_work_func(struct work_struct *p)
+>>>>>>> 9762d61... gpu boost on touch, hardkeys and touchkeys
 {
 	struct touchkey_i2c *tkey_i2c = dev_id;
     static const int ledCmd[] = {TK_CMD_LED_ON, TK_CMD_LED_OFF};
@@ -820,8 +826,13 @@ static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
 
 	if (pressed) {
 		set_touchkey_debug('P');
+<<<<<<< HEAD
     }
 
+=======
+		gpu_boost_on_touch();
+	}
+>>>>>>> 9762d61... gpu boost on touch, hardkeys and touchkeys
 	if (get_tsp_status() && pressed)
 		pr_debug("[TouchKey] touchkey pressed"
 		       " but don't send event because touch is pressed.\n");
