@@ -243,7 +243,7 @@ void terminate_kernel_device(void)
 	dev_t dev = MKDEV(mali_major, 0);
 	
 	mali_sysfs_unregister(&device, dev, mali_dev_name);
-
+	
 	/* unregister char device */
 	cdev_del(&device.cdev);
 	/* free major */

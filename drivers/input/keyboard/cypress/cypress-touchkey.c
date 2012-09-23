@@ -651,17 +651,13 @@ static int touchkey_firmware_update(struct touchkey_i2c *tkey_i2c)
 }
 #endif
 
-<<<<<<< HEAD
-#ifndef TEST_JIG_MODE
-static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
-=======
 extern void gpu_boost_on_touch(void);
 
-void touchkey_work_func(struct work_struct *p)
->>>>>>> 9762d61... gpu boost on touch, hardkeys and touchkeys
+#ifndef TEST_JIG_MODE
+static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
 {
 	struct touchkey_i2c *tkey_i2c = dev_id;
-    static const int ledCmd[] = {TK_CMD_LED_ON, TK_CMD_LED_OFF};
+	static const int ledCmd[] = {TK_CMD_LED_ON, TK_CMD_LED_OFF};
 	u8 data[3];
 	int ret;
 	int retry = 10;
@@ -696,31 +692,31 @@ void touchkey_work_func(struct work_struct *p)
 
 	if (pressed) {
 		set_touchkey_debug('P');
-
-        // enable lights on keydown
-        if (touch_led_disabled == 0) {
-            if (touchkey_led_status == TK_CMD_LED_OFF) {
-                pr_debug("[Touchkey] %s: keydown - LED ON\n", __func__);
-                i2c_touchkey_write(tkey_i2c->client, (u8 *) &ledCmd[0], 1);
-                touchkey_led_status = TK_CMD_LED_ON;
-            }
-            if (timer_pending(&touch_led_timer) == 1) {
-                mod_timer(&touch_led_timer, jiffies + (HZ * touch_led_timeout));
-            }
-        }
-        
-    } else {
-        // touch led timeout on keyup
-        if (touch_led_disabled == 0) {
-            if (timer_pending(&touch_led_timer) == 0) {
-                pr_debug("[Touchkey] %s: keyup - add_timer\n", __func__);
-                touch_led_timer.expires = jiffies + (HZ * touch_led_timeout);
-                add_timer(&touch_led_timer);
-            } else {
-                mod_timer(&touch_led_timer, jiffies + (HZ * touch_led_timeout));
-            }
-        }
-    }
+		gpu_boost_on_touch();
+		
+		// enable lights on keydown
+		if (touch_led_disabled == 0) {
+			if (touchkey_led_status == TK_CMD_LED_OFF) {
+				pr_debug("[Touchkey] %s: keydown - LED ON\n", __func__);
+				i2c_touchkey_write(tkey_i2c->client, (u8 *) &ledCmd[0], 1);
+				touchkey_led_status = TK_CMD_LED_ON;
+			}
+			if (timer_pending(&touch_led_timer) == 1) {
+				mod_timer(&touch_led_timer, jiffies + (HZ * touch_led_timeout));
+			}
+		}
+	} else {
+		// touch led timeout on keyup
+		if (touch_led_disabled == 0) {
+			if (timer_pending(&touch_led_timer) == 0) {
+				pr_debug("[Touchkey] %s: keyup - add_timer\n", __func__);
+				touch_led_timer.expires = jiffies + (HZ * touch_led_timeout);
+				add_timer(&touch_led_timer);
+			} else {
+				mod_timer(&touch_led_timer, jiffies + (HZ * touch_led_timeout));
+			}
+		}
+	}
 
 	if (get_tsp_status() && pressed)
 		pr_debug("[TouchKey] touchkey pressed but don't send event because touch is pressed.\n");
@@ -826,13 +822,9 @@ static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
 
 	if (pressed) {
 		set_touchkey_debug('P');
-<<<<<<< HEAD
-    }
-
-=======
 		gpu_boost_on_touch();
 	}
->>>>>>> 9762d61... gpu boost on touch, hardkeys and touchkeys
+
 	if (get_tsp_status() && pressed)
 		pr_debug("[TouchKey] touchkey pressed"
 		       " but don't send event because touch is pressed.\n");

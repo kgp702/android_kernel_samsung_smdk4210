@@ -389,27 +389,8 @@ static struct attribute_group sec_key_attr_group = {
 	.attrs = sec_key_attrs,
 };
 
-<<<<<<< HEAD
-=======
-static inline int64_t get_time_inms(void) {
-	int64_t tinms;
-	struct timespec cur_time = current_kernel_time();
-	tinms =  cur_time.tv_sec * MSEC_PER_SEC;
-	tinms += cur_time.tv_nsec / NSEC_PER_MSEC;
-	return tinms;
-}
-
-#define HOME_KEY_VAL	102
-extern void mdnie_toggle_negative(void);
-int homekey_trg_cnt = 4;
-int homekey_trg_ms = 300;
-
-static int mdnie_shortcut_enabled = 1;
-module_param_named(mdnie_shortcut_enabled, mdnie_shortcut_enabled, int, S_IRUGO | S_IWUSR | S_IWGRP);
-
 void gpu_boost_on_touch(void);
 
->>>>>>> 9762d61... gpu boost on touch, hardkeys and touchkeys
 static void gpio_keys_report_event(struct gpio_button_data *bdata)
 {
 	struct gpio_keys_button *button = bdata->button;
