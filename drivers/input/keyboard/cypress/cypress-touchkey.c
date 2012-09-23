@@ -824,7 +824,6 @@ static irqreturn_t touchkey_interrupt(int irq, void *dev_id)
 		set_touchkey_debug('P');
 		gpu_boost_on_touch();
 	}
-
 	if (get_tsp_status() && pressed)
 		pr_debug("[TouchKey] touchkey pressed"
 		       " but don't send event because touch is pressed.\n");
